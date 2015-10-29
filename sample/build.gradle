@@ -1,5 +1,34 @@
 apply plugin: 'com.android.application'
+apply plugin: "sonar-runner"
+apply plugin: "jacoco"
 
+android {
+
+    buildTypes{
+         release{
+             testCoverageEnabled true
+         }
+    }
+
+}
+
+sonarRunner {
+    sonarProperties {
+        property "sonar.host.url", "http://localhost:9000/"
+        property "sonar.jdbc.url", "jdbc:mysql://localhost:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance"
+        property "sonar.jdbc.driverClassName", "org.h2.Driver"
+        property "sonar.jdbc.username", "sonar"
+        property "sonar.jdbc.password", "sonar"
+        property "sonar.language", "java"
+        property "sonar.sources", "src/main/java"
+        property "sonar.profile", "Android Lint"
+        property "sonar.binaries", "build"
+
+        // There is a problem when using "standard-project-layout:Sample Project" (by default)
+        // because of the wide space
+        property "sonar.projectKey", "standard-project-layout:sample-project"
+    }
+}
 
 android {
     compileSdkVersion 22
